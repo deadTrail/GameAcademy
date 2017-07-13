@@ -15,7 +15,37 @@
 #define ESC 27
 int main()
 {
-	int key = 0;
+	enum JOBS {
+		WARRIOR=1,
+		MAGE,
+		HUNTER,
+		THIEF
+	};
+	JOBS myjob = WARRIOR;
+	printf("*직업을 선택해 주세요\n");
+	printf("\t1.전사\n");
+	printf("\t2.마법사\n");
+	printf("\t3.사냥꾼\n");
+	printf("\t4.도적\n");
+	printf("*******************\n");
+	scanf_s("%d", &myjob);
+	switch (myjob)
+	{
+	case WARRIOR:
+		printf("전사를 선택하셨습니다.\n");
+		break;
+	case MAGE:
+		printf("마법사를 선택하셨습니다.\n");
+		break;
+	case HUNTER:
+		printf("사냥꾼을 선택하셨습니다\n");
+		break;
+	case THIEF:
+		printf("도적을 선택하셨습니다\n");
+		break;
+	}
+
+	/*int key = 0;
 	while (true)
 	{
 		if (_kbhit())
@@ -52,9 +82,11 @@ int main()
 				case(ESC):
 					printf("ESC 눌림\n");
 				default:
+					printf("%d\n", key);
 					break;
 				}
 			}
 		}
-	}
+	}*/
+	return 0;
 }
