@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <conio.h>
+#include <Windows.h>
 
 #define LEFT 75
 #define RIGHT 77
@@ -13,9 +14,18 @@
 #define DOWN 80
 #define SPACE 32
 #define ESC 27
+
+enum CURSOR_TYPE { NOCURSOR, SOLIDCURSOR, NORMALCURSOR };
+void goToXY(int, int);
+void setCursorType(CURSOR_TYPE);
+void Title();
+
+
 int main()
 {
-	enum JOBS {
+	setCursorType(NOCURSOR);
+	Title();
+	/*enum JOBS {
 		WARRIOR=1,
 		MAGE,
 		HUNTER,
@@ -43,7 +53,7 @@ int main()
 	case THIEF:
 		printf("도적을 선택하셨습니다\n");
 		break;
-	}
+	}*/
 
 	/*int key = 0;
 	while (true)
@@ -89,4 +99,63 @@ int main()
 		}
 	}*/
 	return 0;
+}
+
+void goToXY(int x, int y)
+{
+	COORD pos = { 2 * x,y };
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+
+}
+void setCursorType(CURSOR_TYPE c)
+{
+	CONSOLE_CURSOR_INFO CurInfo;
+
+	switch (c)
+	{
+	case NOCURSOR:
+		CurInfo.dwSize = 1;
+		CurInfo.bVisible = FALSE;
+		break;
+	case SOLIDCURSOR:
+		CurInfo.dwSize = 100;
+		CurInfo.bVisible = TRUE;
+		break;
+	case NORMALCURSOR:
+		CurInfo.dwSize = 20;
+		CurInfo.bVisible = TRUE;
+		break;
+	}
+	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &CurInfo);
+}
+void Title()
+{
+	int x = 10, y = 10, cnt=0;
+	while (true)
+	{
+		cnt++;
+		goToXY(x, y + 0); printf("★★★★★★★★★★★★★★★★★★★★");
+		goToXY(x+5, y + 5); printf("※보석 찾기 게임!※");
+		goToXY(x, y + 15); printf("★★★★★★★★★★★★★★★★★★★★");
+		goToXY(x + 5, y + 7); printf("  ↑   :      Up");
+		goToXY(x + 5, y + 8); printf("←   → : Left | Right");
+		goToXY(x + 5, y + 9); printf("  ↓   :     Down");
+		if (!_kbhit())
+		{
+
+			if (cnt % 2 == 0)
+			{
+				goToXY(x + 5, y + 13); printf("Press Any Key To Start");
+			}
+			else
+			{
+				goToXY(x + 5, y + 13); printf("");
+			}
+		}
+		else
+		{
+			break;
+		}
+		
+	}
 }
