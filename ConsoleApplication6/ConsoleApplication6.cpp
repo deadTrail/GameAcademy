@@ -17,7 +17,8 @@
 #define MAP_HIGHT 10
 #define MAP_WIDTH 10
 */
-#define MAX_NUM 10
+#define MAX_NUM 1000000
+
 int num[MAX_NUM];
 void BubbleSort();
 /*enum CURSOR_TYPE { NOCURSOR, SOLIDCURSOR, NORMALCURSOR };
@@ -46,27 +47,18 @@ int maze[10][10] = {
 */
 int main()
 {
+	clock_t start, end;
 	srand((unsigned int)time(NULL));
-	printf("버블 소트 전\n");
 	for (int i = 0; i < MAX_NUM; i++)
 	{
-		num[i] = rand() % 100;
-		printf("%4d", num[i]);
-		if (i > 0 && (i + 1) % 5 == 0)
-		{
-			printf("\n");
-		}
+		num[i] = rand() % MAX_NUM +1;
 	}
+	printf("버블 소트 시작!\n");
+	start = clock();
 	BubbleSort();
+	end = clock();
 	printf("버블 소트 후\n");
-	for (int i = 0; i < MAX_NUM; i++)
-	{
-		printf("%4d", num[i]);
-		if (i > 0 && (i + 1) % 5 == 0)
-		{
-			printf("\n");
-		}
-	}
+	printf("걸린 시간은 %.2lf 초 입니다\n",(end-start)/(double)CLOCKS_PER_SEC);
 
 	/*setCursorType(NOCURSOR);
 	Title();
