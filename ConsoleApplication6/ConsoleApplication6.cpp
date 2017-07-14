@@ -8,7 +8,7 @@
 #include <conio.h>
 #include <Windows.h>
 
-#define LEFT 75
+/*#define LEFT 75
 #define RIGHT 77
 #define UP 72
 #define DOWN 80
@@ -16,8 +16,11 @@
 #define ESC 27
 #define MAP_HIGHT 10
 #define MAP_WIDTH 10
-
-enum CURSOR_TYPE { NOCURSOR, SOLIDCURSOR, NORMALCURSOR };
+*/
+#define MAX_NUM 10
+int num[MAX_NUM];
+void BubbleSort();
+/*enum CURSOR_TYPE { NOCURSOR, SOLIDCURSOR, NORMALCURSOR };
 enum MAP_TYPE{ROAD,WALL,GEM};
 void goToXY(int, int);
 void setCursorType(CURSOR_TYPE);
@@ -40,16 +43,39 @@ int maze[10][10] = {
 	{ 1,1,1,1,1,1,1,1,1,1 },
 };
 
-
+*/
 int main()
 {
-	setCursorType(NOCURSOR);
+	srand((unsigned int)time(NULL));
+	printf("버블 소트 전\n");
+	for (int i = 0; i < MAX_NUM; i++)
+	{
+		num[i] = rand() % 100;
+		printf("%4d", num[i]);
+		if (i > 0 && (i + 1) % 5 == 0)
+		{
+			printf("\n");
+		}
+	}
+	BubbleSort();
+	printf("버블 소트 후\n");
+	for (int i = 0; i < MAX_NUM; i++)
+	{
+		printf("%4d", num[i]);
+		if (i > 0 && (i + 1) % 5 == 0)
+		{
+			printf("\n");
+		}
+	}
+
+	/*setCursorType(NOCURSOR);
 	Title();
 	while (true)
 	{
 		KeyProcessing();
 		MapPrint();
-	}
+	}*/
+
 	/*enum JOBS {
 		WARRIOR=1,
 		MAGE,
@@ -126,7 +152,7 @@ int main()
 	return 0;
 }
 
-void goToXY(int x, int y)
+/*void goToXY(int x, int y)
 {
 	COORD pos = { 2 * x,y };
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
@@ -324,6 +350,21 @@ void MapPrint()
 			else if (maze[i][j] == GEM)
 			{
 				goToXY(x + j, y + i); printf("☆");
+			}
+		}
+	}
+}*/
+void BubbleSort() {
+	int temp = 0;
+	for (int i = 0; i < MAX_NUM-1; i++)
+	{
+		for (int j = 0; j < MAX_NUM - i - 1; j++)
+		{
+			if (num[j] > num[j + 1])
+			{
+				temp = num[j];
+				num[j] = num[j + 1];
+				num[j + 1] = temp;
 			}
 		}
 	}
