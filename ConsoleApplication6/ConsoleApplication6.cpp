@@ -14,17 +14,42 @@
 #define DOWN 80
 #define SPACE 32
 #define ESC 27
+#define MAP_HIGHT 10
+#define MAP_WIDTH 10
 
 enum CURSOR_TYPE { NOCURSOR, SOLIDCURSOR, NORMALCURSOR };
+enum MAP_TYPE{ROAD,WALL,GEM};
 void goToXY(int, int);
 void setCursorType(CURSOR_TYPE);
 void Title();
+void KeyProcessing();
+void MapPrint();
+void Clear();
+
+int heroX = 0, heroY = 0;
+int maze[10][10] = {
+	{ 0,1,1,1,1,1,1,1,1,1 },
+	{ 0,0,0,0,0,0,0,0,0,1 },
+	{ 1,1,1,1,1,1,1,0,0,1 },
+	{ 1,0,0,0,0,0,1,1,0,1 },
+	{ 1,0,0,0,2,0,1,1,0,1 },
+	{ 1,1,1,1,1,0,1,1,0,1 },
+	{ 1,0,0,0,0,0,0,0,0,1 },
+	{ 1,0,0,0,0,0,0,0,0,1 },
+	{ 1,0,0,0,0,0,0,0,0,1 },
+	{ 1,1,1,1,1,1,1,1,1,1 },
+};
 
 
 int main()
 {
 	setCursorType(NOCURSOR);
 	Title();
+	while (true)
+	{
+		KeyProcessing();
+		MapPrint();
+	}
 	/*enum JOBS {
 		WARRIOR=1,
 		MAGE,
@@ -131,31 +156,175 @@ void setCursorType(CURSOR_TYPE c)
 void Title()
 {
 	int x = 10, y = 10, cnt=0;
-	while (true)
-	{
-		cnt++;
+	
+		
 		goToXY(x, y + 0); printf("★★★★★★★★★★★★★★★★★★★★");
 		goToXY(x+5, y + 5); printf("※보석 찾기 게임!※");
 		goToXY(x, y + 15); printf("★★★★★★★★★★★★★★★★★★★★");
 		goToXY(x + 5, y + 7); printf("  ↑   :      Up");
 		goToXY(x + 5, y + 8); printf("←   → : Left | Right");
 		goToXY(x + 5, y + 9); printf("  ↓   :     Down");
-		if (!_kbhit())
+		while (true)
 		{
-
-			if (cnt % 2 == 0)
+			cnt++;
+			if (!_kbhit())
 			{
-				goToXY(x + 5, y + 13); printf("Press Any Key To Start");
+
+				if (cnt % 2 == 0)
+				{
+					goToXY(x + 5, y + 13); printf("Press Any Key To Start");
+				}
+				else
+				{
+					goToXY(x + 5, y + 13); printf("                       ");
+				}
+				Sleep(400);
 			}
 			else
 			{
-				goToXY(x + 5, y + 13); printf("");
+				break;
+			}
+		}
+		while (_kbhit())
+		{
+			_getch();
+		}
+		system("cls");
+}
+
+void Clear()
+{
+	int x = 7, y = 7;
+	goToXY(x, y + 0); printf("★★★★★★★★★★★★★★★★★★★★");
+	goToXY(x, y + 1); printf("★                                    ★");
+	goToXY(x, y + 2); printf("★                                    ★");
+	goToXY(x, y + 3); printf("★                                    ★");
+	goToXY(x, y + 4); printf("★                                    ★");
+	goToXY(x, y + 5); printf("★                                    ★");
+	goToXY(x, y + 6); printf("★                                    ★");
+	goToXY(x, y + 7); printf("★           ※CLEAR!!!!※            ★");
+	goToXY(x, y + 8); printf("★                                    ★");
+	goToXY(x, y + 9); printf("★                                    ★");
+	goToXY(x, y + 10); printf("★                                    ★");
+	goToXY(x, y + 11); printf("★                                    ★");
+	goToXY(x, y + 12); printf("★                                    ★");
+	goToXY(x, y + 13); printf("★                                    ★");
+	goToXY(x, y + 14); printf("★                                    ★");
+	goToXY(x, y + 15); printf("★★★★★★★★★★★★★★★★★★★★");
+	_getch();
+	system("cls");
+}
+void KeyProcessing()
+{
+	int key = 0;
+	if (_kbhit())
+	{
+		key = _getch();
+		if (key == 224)
+		{
+			key = _getch();
+			switch (key)
+			{
+			case UP:
+				if (heroY - 1 > 0 && maze[heroY - 1][heroX]!=WALL)
+				{
+					if (maze[heroY - 1][heroX] == GEM)
+					{
+						Clear();
+						heroX = heroY = 0;
+					}
+					else
+					{
+						heroY--;
+					}
+				}
+				break;
+			case DOWN:
+				if (heroY + 1 < MAP_HIGHT && maze[heroY + 1][heroX] != WALL)
+				{
+					if (maze[heroY + 1][heroX] == GEM)
+					{
+						Clear();
+						heroX = heroY = 0;
+					}
+					else
+					{
+						heroY++;
+					}
+				}
+				break;
+			case LEFT:
+				if (heroX - 1 > 0 && maze[heroY][heroX - 1] != WALL)
+				{
+					if (maze[heroY][heroX-1] == GEM)
+					{
+						Clear();
+						heroX = heroY = 0;
+					}
+					else
+					{
+						heroX--;
+					}
+				}
+				break;
+			case RIGHT:
+				if (heroX + 1 < MAP_WIDTH && maze[heroY][heroX + 1] != WALL)
+				{
+					if (maze[heroY][heroX+1] == GEM)
+					{
+						Clear();
+						heroX = heroY = 0;
+					}
+					else
+					{
+						heroX++;
+					}
+				}
+				break;
+			default:
+				break;
 			}
 		}
 		else
 		{
-			break;
+			if (key == ESC)
+			{
+				exit(0);
+			}
 		}
-		
+	}
+	while (_kbhit())
+	{
+		_getch();
+	}
+}
+void MapPrint()
+{
+	int x = 10, y = 10;
+	goToXY(x + MAP_WIDTH, y); printf(" STAGE 1");
+	for (int i = 0; i < MAP_HIGHT; i++)
+	{
+		for (int j = 0; j < MAP_WIDTH; j++)
+		{
+			if (maze[i][j] == ROAD)
+			{
+				if (i == heroY && j == heroX)
+				{
+					goToXY(x + j, y + i); printf("@");
+				}
+				else 
+				{
+					goToXY(x + j, y + i); printf("□");
+				}
+			}
+			else if (maze[i][j] == WALL)
+			{
+				goToXY(x + j, y + i); printf("■");
+			}
+			else if (maze[i][j] == GEM)
+			{
+				goToXY(x + j, y + i); printf("☆");
+			}
+		}
 	}
 }
