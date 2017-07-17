@@ -8,7 +8,7 @@
 #include <conio.h>
 #include <Windows.h>
 
-/*#define LEFT 75
+#define LEFT 75
 #define RIGHT 77
 #define UP 72
 #define DOWN 80
@@ -16,12 +16,9 @@
 #define ESC 27
 #define MAP_HIGHT 10
 #define MAP_WIDTH 10
-*/
-#define MAX_NUM 1000000
 
-int num[MAX_NUM];
-void BubbleSort();
-/*enum CURSOR_TYPE { NOCURSOR, SOLIDCURSOR, NORMALCURSOR };
+
+enum CURSOR_TYPE { NOCURSOR, SOLIDCURSOR, NORMALCURSOR };
 enum MAP_TYPE{ROAD,WALL,GEM};
 void goToXY(int, int);
 void setCursorType(CURSOR_TYPE);
@@ -31,6 +28,11 @@ void MapPrint();
 void Clear();
 
 int heroX = 0, heroY = 0;
+int sec, min, hour, day;
+clock_t current, start, end;
+int msecPerMinute = CLOCKS_PER_SEC * 60;
+int msecPerHour = msecPerMinute * 60;
+int msecPerDay = msecPerHour * 24;
 int maze[10][10] = {
 	{ 0,1,1,1,1,1,1,1,1,1 },
 	{ 0,0,0,0,0,0,0,0,0,1 },
@@ -44,29 +46,15 @@ int maze[10][10] = {
 	{ 1,1,1,1,1,1,1,1,1,1 },
 };
 
-*/
+
 int main()
 {
-	clock_t start, end;
-	srand((unsigned int)time(NULL));
-	for (int i = 0; i < MAX_NUM; i++)
-	{
-		num[i] = rand() % MAX_NUM +1;
-	}
-	printf("버블 소트 시작!\n");
-	start = clock();
-	BubbleSort();
-	end = clock();
-	printf("버블 소트 후\n");
-	printf("걸린 시간은 %.2lf 초 입니다\n",(end-start)/(double)CLOCKS_PER_SEC);
-
-	/*setCursorType(NOCURSOR);
 	Title();
 	while (true)
 	{
 		KeyProcessing();
 		MapPrint();
-	}*/
+	}
 
 	/*enum JOBS {
 		WARRIOR=1,
@@ -144,7 +132,7 @@ int main()
 	return 0;
 }
 
-/*void goToXY(int x, int y)
+void goToXY(int x, int y)
 {
 	COORD pos = { 2 * x,y };
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
@@ -208,6 +196,7 @@ void Title()
 			_getch();
 		}
 		system("cls");
+		start = clock();
 }
 
 void Clear()
@@ -231,6 +220,7 @@ void Clear()
 	goToXY(x, y + 15); printf("★★★★★★★★★★★★★★★★★★★★");
 	_getch();
 	system("cls");
+	start = clock();
 }
 void KeyProcessing()
 {
@@ -319,6 +309,16 @@ void KeyProcessing()
 void MapPrint()
 {
 	int x = 10, y = 10;
+	end = clock();
+	current = end - start;
+	day = current / msecPerDay;
+	current -= msecPerDay*day;
+	hour = current / msecPerHour;
+	current -= msecPerHour*hour;
+	min = current / msecPerMinute;
+	current -= msecPerMinute*min;
+	sec = current / CLOCKS_PER_SEC;
+	goToXY(x + MAP_WIDTH, y + 5); printf("%02d 일 %02d 시간 %02d 분 %02d 초", day, hour, min, sec);
 	goToXY(x + MAP_WIDTH, y); printf(" STAGE 1");
 	for (int i = 0; i < MAP_HIGHT; i++)
 	{
@@ -342,21 +342,6 @@ void MapPrint()
 			else if (maze[i][j] == GEM)
 			{
 				goToXY(x + j, y + i); printf("☆");
-			}
-		}
-	}
-}*/
-void BubbleSort() {
-	int temp = 0;
-	for (int i = 0; i < MAX_NUM-1; i++)
-	{
-		for (int j = 0; j < MAX_NUM - i - 1; j++)
-		{
-			if (num[j] > num[j + 1])
-			{
-				temp = num[j];
-				num[j] = num[j + 1];
-				num[j + 1] = temp;
 			}
 		}
 	}
