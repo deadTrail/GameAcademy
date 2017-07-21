@@ -6,7 +6,7 @@
 #include <stdlib.h>
 
 /*int global = 300;*/
-void swap(int, int);
+void swap(int*, int*);
 int main()
 {
 	/*static int a = 20;
@@ -42,16 +42,16 @@ int main()
 	*/
 	int a = 3;
 	int b = 10;
-	swap(a, b);
+	swap(&a, &b);
 	printf("3. 함수 호출 후-> a : %d, b : %d\n", a, b);
     return 0;
 }
-void swap(int a, int b)
+void swap(int *a, int* b)
 {
 	int temp = 0;
-	printf("1. 변경 전-> a : %d, b : %d\n", a, b);
-	temp = a;
-	a = b;
-	b = temp;
-	printf("2. 변경 후-> a : %d, b : %d\n", a, b);
+	printf("1. 변경 전-> a : %d, b : %d\n", *a, *b);
+	temp = *a;
+	*a = *b;
+	*b = temp;
+	printf("2. 변경 후-> a : %d, b : %d\n", *a, *b);
 }
