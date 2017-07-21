@@ -6,7 +6,7 @@
 #include <stdlib.h>
 
 /*int global = 300;*/
-
+void swap(int, int);
 int main()
 {
 	/*static int a = 20;
@@ -33,13 +33,25 @@ int main()
 	printf("char 형 포인터 ptr2의 값 %d, 주소 %d , 크기 %d\n", ptr2, &ptr2, sizeof(ptr2));
 	printf("double 형 포인터 ptr3의 값 %d, 주소 %d , 크기 %d\n", ptr3, &ptr3, sizeof(ptr3));
 	*/
-	int nData = 10;
+	/*int nData = 10;
 	int *pnData = &nData;
 	printf("%d, %d\n", nData, *pnData);
 	printf("%p, %p\n", &nData, pnData);
 	*pnData += 20;
 	printf("%d\n", nData);
-
+	*/
+	int a = 3;
+	int b = 10;
+	swap(a, b);
+	printf("3. 함수 호출 후-> a : %d, b : %d\n", a, b);
     return 0;
 }
-
+void swap(int a, int b)
+{
+	int temp = 0;
+	printf("1. 변경 전-> a : %d, b : %d\n", a, b);
+	temp = a;
+	a = b;
+	b = temp;
+	printf("2. 변경 후-> a : %d, b : %d\n", a, b);
+}
