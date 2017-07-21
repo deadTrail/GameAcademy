@@ -6,7 +6,7 @@
 #include <stdlib.h>
 
 /*int global = 300;*/
-void swap(int*, int*);
+//void swap(int*, int*);
 int main()
 {
 	/*static int a = 20;
@@ -40,12 +40,57 @@ int main()
 	*pnData += 20;
 	printf("%d\n", nData);
 	*/
-	int a = 3;
+	/*int a = 3;
 	int b = 10;
 	swap(&a, &b);
-	printf("3. 함수 호출 후-> a : %d, b : %d\n", a, b);
-    return 0;
+	printf("3. 함수 호출 후-> a : %d, b : %d\n", a, b);*/
+	
+	/*char c = 'A';
+	int n = 3;
+	float f = 3.14;
+	double d = 3.141597;
+
+	char*pc = &c;
+	int*pn = &n;
+	float *pf = &f;
+	double * pd = &d;
+	
+	printf("%c \n", ++(*pc));
+	printf("%d \n", ++(*pn));
+	printf("%f \n", ++(*pf));
+	printf("%lf \n", ++(*pd));*/
+
+	/*void *ptr = NULL;
+	int nData = 10;
+	float fData = 1.234;
+	ptr = &nData;
+	printf("포인터의 값 : %d\n", *((int *)ptr));
+	ptr = &fData;
+	printf("포인터의 값 : %lf\n", *((float *)ptr));*/
+
+	/*char str1[5] = "abcd";
+	char *str2 = "ABCD";
+
+	printf("%s \n", str1);
+	printf("%s \n", str2);
+
+	str1[0] = 'X';
+	//*(str1 + 1) = 'Z';
+	printf("%s \n", str1);
+	printf("%s \n", str2);*/
+
+	int arr[3] = { 10,20,30 };
+	int *ptr = &arr[0];
+	printf("%d %3d \n", ptr[0], arr[0]);
+	printf("%d %3d \n", ptr[1], arr[1]);
+	printf("%d %3d \n", ptr[2], arr[2]);
+	printf("%d %3d \n", *ptr, *arr);
+	printf("%d %3d \n", *(ptr+0), *(arr+0));
+	printf("%d %3d \n", *(ptr + 1), *(arr + 1));
+	printf("%d %3d \n", *(ptr + 2), *(arr + 2));
+	return 0;
 }
+/*
 void swap(int *a, int* b)
 {
 	int temp = 0;
@@ -55,3 +100,4 @@ void swap(int *a, int* b)
 	*b = temp;
 	printf("2. 변경 후-> a : %d, b : %d\n", *a, *b);
 }
+*/
