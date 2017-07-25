@@ -5,6 +5,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
+#define SMALL 4
+#define BIG 8
 /*int global = 300;*/
 //void swap(int*, int*);
 /*int Min(int num1, int num2)
@@ -21,7 +24,8 @@ int Max(int num1, int num2)
 	*max = num1 > num2 ? num1 : num2;
 }*/
 //int ArrayAdd(int*, int);
-int ArrayMaxVal(int[], int);
+//void Swap(char*, char*);
+//int ArrayMaxVal(int[], int);
 int main()
 {
 	/*static int a = 20;
@@ -34,6 +38,7 @@ int main()
 	printf("포인터 *p=%3d p=%d\n", *p, p);
 	printf("포인터 *p=%3d &p=%d\n", *p, &p);
 	*/
+
 	/*int a = 10;
 	char b = 'A';
 	double c = 1234.56f;
@@ -48,6 +53,7 @@ int main()
 	printf("char 형 포인터 ptr2의 값 %d, 주소 %d , 크기 %d\n", ptr2, &ptr2, sizeof(ptr2));
 	printf("double 형 포인터 ptr3의 값 %d, 주소 %d , 크기 %d\n", ptr3, &ptr3, sizeof(ptr3));
 	*/
+
 	/*int nData = 10;
 	int *pnData = &nData;
 	printf("%d, %d\n", nData, *pnData);
@@ -55,6 +61,7 @@ int main()
 	*pnData += 20;
 	printf("%d\n", nData);
 	*/
+
 	/*int a = 3;
 	int b = 10;
 	swap(&a, &b);
@@ -157,11 +164,13 @@ int main()
 		}
 		printf("\n");
 	}*/
+
 	/*int arr[5] = { 2,3,5,7,11 };
 	int size = (sizeof(arr) / sizeof(int));
 	printf("배열의 총 합은 %d 입니다.\n", ArrayAdd(arr, size));
 	*/
-	int arr[20] = { 0, };
+
+	/*int arr[20] = { 0, };
 	srand((unsigned int)time(NULL));
 	int size = (sizeof(arr) / sizeof(int));
 	for(int i = 0; i < size; i++)
@@ -170,6 +179,145 @@ int main()
 		printf("%4d", arr[i]);
 	}
 	printf("\n배열 중 가장 큰 값은 %d 입니다.", ArrayMaxVal(arr, size));
+	*/
+
+	/*char *pstr1 = "bear";
+	char *pstr2 = "rabbit";
+	printf("1.바꾸기 전 pstr1 = %s, pstr2 = %s\n", pstr1, pstr2);
+	Swap(&pstr1, &pstr2);
+	printf("2.바꾸기 후 pstr1 = %s, pstr2 = %s\n", pstr1, pstr2);
+	*/
+
+	/*int *pBuffer = (int*)malloc(sizeof(int) * 100);
+	printf("버퍼에 할당된 메모리의 크기 : %2d Byte\n", sizeof(pBuffer));
+	printf("버퍼에 할당된 메모리의 크기 : %2d Byte\n", _msize(pBuffer));
+
+	free(pBuffer);
+	*/
+
+	/*int length = 0;
+	int *pList = NULL;
+
+	printf("배열의 길이를 입력 하세요:");
+	scanf_s("%d", &length);
+	pList = (int*)malloc(sizeof(int)*length);
+	for (int i = 0; i < length; i++)
+	{
+		pList[i] = i + 1;
+		printf("pList[%d] : %3d \n", i, pList[i]);
+	}
+	printf("\n");
+	free(pList);
+	*/
+	
+	/*int*ptr = (int*)malloc(sizeof(int) * 10);
+	for (int i = 0; i < 10; i++)
+	{
+		*(ptr + i) = i;
+	}
+	for (int i = 0; i < 10; i++)
+	{
+		printf("ptr + %d 의 주소: %p\t", i, (ptr + i));
+		printf("*(ptr + %d): %d \n", i, *(ptr + i));
+	}
+
+	char*cptr = (char*)malloc(sizeof(char) * 10);
+	for (int i = 0; i < 10; i++)
+	{
+		*(cptr + i) = 'a' + i;
+	}
+	for (int i = 0; i < 10; i++)
+	{
+		printf("cptr + %d 의 주소: %p\t", i, (cptr + i));
+		printf("*(cptr + %d): %c \n", i, *(cptr + i));
+	}
+
+	double*dptr = (double *)malloc(sizeof(double) * 10);
+	for (int i = 0; i < 10; i++)
+	{
+		*(dptr + i) = 3.14*i;
+	}
+	for (int i = 0; i < 10; i++)
+	{
+		printf("dptr + %d 의 주소: %p\t", i, (dptr + i));
+		printf("*(dptr + %d): %lf \n", i, *(dptr + i));
+	}
+	free(ptr);
+	free(cptr);
+	free(dptr);
+	*/
+	
+	/*char *str1 = (char*)malloc(strlen("공유는") + 1);
+	char * str2 = (char *)malloc(strlen("TVN 드라마") + 1);
+	char * str3 = (char*)malloc(strlen("도깨비의 남자 주인공이다.") + 1);
+	
+	strcpy_s(str1, _msize(str1),"공유는");
+	strcpy_s(str2, _msize(str2),"TVN 드라마");
+	strcpy_s(str3, _msize(str3),"도깨비의 남자 주인공이다.");
+
+	printf("%s %s %s\n", str1, str2, str3);
+	free(str1);
+	free(str2);
+	free(str3);
+	*/
+	
+	/*int *ptr = NULL;
+	int size = 10;
+
+	ptr = (int*)malloc(sizeof(int)*size);
+	if (ptr != NULL)
+	{
+		memset(ptr, 0, sizeof(int)*size);
+		for (int i = 0; i < size; i++)
+		{
+			printf("%d : %d \n", i + 1, *ptr++);
+		}
+
+		free(ptr);
+	}
+	*/
+
+	/*
+	int *ptr = NULL;
+	ptr = (int*)malloc(sizeof(int)*SMALL);
+	for (int i = 0; i < SMALL; i++)
+	{
+		ptr[i] = i + 1;
+	}
+	int *temp = (int*)malloc(sizeof(int)*BIG);
+	memset(temp, 0, sizeof(int)*BIG);
+	for (int i = 0; i < SMALL; i++)
+	{
+		temp[i] = ptr[i];
+	}
+	free(ptr);
+	ptr = temp;
+	for (int i = 0; i < BIG; i++)
+	{
+		printf("ptr[%d] = %d\n", i, *(ptr+i));
+	}
+	free(ptr);
+	*/
+
+	int student;
+	int input;
+	int *score;
+	int sum = 0;
+	printf("학생의 수는?:");
+	scanf_s("%d", &student);
+	score = (int*)malloc(student * sizeof(int));
+	for (int i = 0; i < student; i ++ )
+	{
+		printf("학생 %d의 점수:", i);
+		scanf_s("%d", &input);
+		score[i] = input;
+	}
+	for (int i = 0; i < student; i++)
+	{
+		sum += score[i];
+	}
+	printf("전체 학생 평균 점수 : %d \n", (sum / student));
+	free(score);
 	return 0;
 }
 /*
@@ -192,7 +340,7 @@ void swap(int *a, int* b)
 	}
 	return sum;
 }*/
-int ArrayMaxVal(int pArr[], int size)
+/*int ArrayMaxVal(int pArr[], int size)
 {
 	int max = 0;
 	max = pArr[0];
@@ -204,4 +352,11 @@ int ArrayMaxVal(int pArr[], int size)
 		}
 	}
 	return max;
-}
+}*/
+/*void Swap(char**pstr1, char**pstr2)
+{
+	char *str;
+	str = *pstr1;
+	*pstr1 = *pstr2;
+	*pstr2 = str;
+}*/
