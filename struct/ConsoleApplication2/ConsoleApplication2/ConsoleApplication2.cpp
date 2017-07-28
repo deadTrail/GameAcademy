@@ -15,7 +15,7 @@ typedef struct tagUSER
 typedef struct tagNODE
 {
 	USER user;
-	NODE* next;
+	struct tagNODE* next;
 }NODE;
 
 enum MENU
@@ -26,70 +26,148 @@ enum MENU
 	SHOW_USER
 };
 
+void initNode();
 int showMenu();
-void addUser(NODE*,int*);
+void addUser();
+void deleteUser();
+void showUser();
+void releaseAll();
 
-NODE tail = { NULL,&tail };
-NODE head = { NULL,&tail };
+NODE *tail = NULL;
+NODE *head = NULL;
 
 int main()
 {
-	int len = 0;
 	int sel = 0;
+	initNode();
 	do
 	{
 		switch (sel = showMenu())
 		{
 		case ADD_USER:
-			addUser(&head, &len);
+			addUser();
+			break;
+		case DELETE_USER:
+			deleteUser();
+			break;
+		case SHOW_USER:
+			showUser();
+			break;
+		case EXIT:
+			exit(0);
+			break;
 		default:
+			printf("you input wrong key! please try another key\n");
 			break;
 		}
 	} while (true);
-    return 0;
+	releaseAll();
+	return 0;
+}
+void initNode()
+{
+	head = (NODE*)malloc(sizeof(NODE));
+	tail = (NODE*)malloc(sizeof(NODE));
+	head->next = tail;
+	tail->next = tail;
 }
 int showMenu()
 {
 	int select = 0;
-	printf("---------------------");
-	printf("------1.회원 추가-----");
-	printf("---------------------");
+	printf("-------------------------\n");
+	printf("--------1.Add User-------\n");
+	printf("------2.Delete User------\n");
+	printf("-------3.Show User-------\n");
+	printf("----------0.Exit---------\n");
+	printf("-------------------------\n");
 	scanf("%d", &select);
 	return select;
 }
-void addUser(NODE* node, int* length)
+void addUser()
 {
-	USER* tmpUser = NULL;
-	NODE * nodeCpy = node;
+	USER tmpUser = { { 0, },0,0 };
+	NODE * iterNode = head;
 	NODE * tempNode = NULL;
-	tmpUser = (USER*)malloc(sizeof(USER));
 	tempNode = (NODE*)malloc(sizeof(NODE));
 	int isID = 0;
 	do {
 		if (isID == 1)
 		{
-			printf("이미 존재하는 아이디 입니다. 다시 입력해 주세요.\n");
+			printf("ID is already taken. please enter ID again.\n");
 		}
-		printf("숫자로 된 아이디를 입력해 주세요\n");
-		tmpUser->id = 0;
-		scanf("%d", &(tmpUser->id));
-		while (true) {
-			if (nodeCpy->user->id == tmpUser->id)
+		printf("Please type your ID composed of numbers.\n");
+		tmpUser.id = 0;
+		scanf("%d", &(tmpUser.id));
+		while (iterNode != tail) {
+			if (iterNode->user.id == tmpUser.id)
 			{
 				isID = 1;
 				break;
 			}
 			else
 			{
-				nodeCpy = nodeCpy->next;
+				iterNode = iterNode->next;
 			}
 		}
 	} while (isID);
-	printf("이름을 입력해 주세요.\n");
-	scanf("%s", tmpUser->name);
-	printf("나이를 입력해 주세요\n");
-	scanf("%d", &(tmpUser->age));
+	printf("Please type in your Name.\n");
+	scanf("%s", tmpUser.name);
+	printf("Please type in your age.\n");
+	scanf("%d", &(tmpUser.age));
 	tempNode->user = tmpUser;
-	tempNode->next = node->next;
-	node->next = tempNode;
+	tempNode->next = head->next;
+	head->next = tempNode;
+}
+void deleteUser()
+{
+	int tmpID = 0;
+	do
+	{
+		NODE* prevNode = head;
+		NODE* iterNode = prevNode->next;
+		printf("Please type in a ID you want to delete.\n");
+		scanf("%d", &tmpID);
+		while (iterNode != tail && iterNode->user.id != tmpID)
+		{
+			prevNode = prevNode->next;
+			iterNode = iterNode->next;
+		}
+		if (iterNode != tail)
+		{
+			prevNode->next = iterNode->next;
+			free(iterNode);
+			printf("Delete Complete.\n");
+			break;
+		}
+		else
+		{
+			printf("There is no ID to match with. Please try again.\n");
+		}
+	} while (true);
+
+}
+void showUser()
+{
+	NODE * iterNode = head->next;
+
+	printf("|%5s||%5s||%5s|\n", "ID", "Age", "Name");
+
+	while (iterNode != tail)
+	{
+		printf("|%5d||%5d||%5s|\n", iterNode->user.id, iterNode->user.age, iterNode->user.name);
+		iterNode = iterNode->next;
+	}
+}
+void releaseAll()
+{
+	NODE * prevNode = head;
+	NODE * iterNode = NULL;
+	while (iterNode != tail)
+	{
+		iterNode = prevNode->next;
+		prevNode->next = iterNode->next;
+		free(iterNode);
+	}
+	free(tail);
+	free(head);
 }
